@@ -1,0 +1,10 @@
+.Char {
+    display: inline-block;
+    padding: 16px;
+    text-align: center;
+    margin: 16px;
+    color:  1px solid #eee;
+    border: 1px solid black;
+    box-shadow: 0 2px 3px #ccc;
+    cursor: pointer;
+}
