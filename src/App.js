@@ -1,8 +1,8 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person'
 import ValidationComponent from './Validation/ValidationComponent'
-import React, { Component } from 'react';
 import CharComponent from './Char/CharComponent';
 
 class App extends Component {
@@ -64,11 +64,16 @@ class App extends Component {
   render() {
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1x solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = this.state.showPersons === true ?
@@ -84,38 +89,58 @@ class App extends Component {
         })}
       </div>) : null
 
+    if (this.state.showPersons === true) {
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'lightgred',
+        color: 'black'
+      };
+    }
+
+    const classes = []
+    if (this.state.persons.length <= 2) {
+      classes.push('red');
+    }
+
+    if (this.state.persons.length <= 1) {
+      classes.push('bold');
+    }
+
     let chars = (<div>{
       [...this.state.chars].map((char, index) => {
         return <CharComponent
           click={() => this.deleteCharHandler(index)}
           char={char} />
-      })}</div>);
+      })}</div>
+    );
 
     return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        <h2>Validation task:</h2>
-        <input type="text" onChange={this.validatedTextChangedHandler} />
-        <ValidationComponent
-          validationMessage={this.state.validationMessage}
-          key={this.state.validationMessage} />
-        <p value={this.state.validationMessage} />
-        <h2>Char task:</h2>
-        <input
-          type="text"
-          onChange={this.charsChangedHandler}
-          value={this.state.chars} />
-        {chars}
-        <br />
-        <button
-          style={style}
-          onClick={this.togglePersonHandler}>Toggle People</button>
-        {persons}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <h1>Hi, I'm a React App</h1>
+          <p className={classes.join(' ')}>This is really working!</p>
+          <h2>Validation task:</h2>
+          <input type="text" onChange={this.validatedTextChangedHandler} />
+          <ValidationComponent
+            validationMessage={this.state.validationMessage}
+            key={this.state.validationMessage} />
+          <p value={this.state.validationMessage} />
+          <h2>Char task:</h2>
+          <input
+            type="text"
+            onChange={this.charsChangedHandler}
+            value={this.state.chars} />
+          {chars}
+          <br />
+          <button
+            style={style}
+            onClick={this.togglePersonHandler}>Toggle People</button>
+          {persons}
+        </div>
+      </StyleRoot>
     )
   };
 
 }
 
-export default App;
+export default Radium(App);
