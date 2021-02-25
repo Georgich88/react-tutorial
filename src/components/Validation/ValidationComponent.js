@@ -1,26 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-class ValidationComponent extends Component {
+const validationComponent = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.validationMessage = props.validationMessage;
-    }
 
-    render(){
-        console.log(this.validationMessage);
-        const valid = this.validationMessage.length > 5;
-        const validationMessage = valid ? "It is okay" : "Text too short";
+    console.log(props.validationMessage);
+    const valid = props.validationMessage.length > 5;
+    const validationMessage = valid ? "It is okay" : "Text too short";
 
-        return (
-            <div className="ValidationComponent">
-                <p>{validationMessage}</p>
-            </div>
-            )
-    }
-    
+    return (
+        <div className="ValidationComponent">
+            <p>{validationMessage}</p>
+        </div>
+    )
+
+
 
 }
 
-export default ValidationComponent;
+export default validationComponent;

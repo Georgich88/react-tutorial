@@ -1,24 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './components/Persons/Person/Person'
-import ValidationComponent from './components/Validation/ValidationComponent'
-import CharComponent from './components/Char/CharComponent';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-import styled from 'styled-components'
+import Persons from '../components/Persons/Persons'
+import Cockpit from '../components/Cockpit/Cockpit';
 
-
-const StyledButton = styled.button`
-  background-color: ${props => props.alt ? 'red' : 'green'};
-  color: white;
-  font: inherit;
-  border: 1x solid blue;
-  padding: 8px;
-  cursor: pointer;
-  &:hover: {
-    background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-    color: black;
-  }
-`;
 
 class App extends Component {
 
@@ -80,57 +64,25 @@ class App extends Component {
 
     let persons = this.state.showPersons === true ?
       (<div>
-        {this.state.persons.map((person, index) => {
-          return <ErrorBoundary key={person.id}>
-            <Person
-              click={() => this.deletePersonHandler(index)}
-              changed={(event) => this.nameChangedHandler(event, person.id)}
-              name={person.name}
-              age={person.age} />
-          </ErrorBoundary>
-        })}
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.state.nameChangedHandler} />
       </div>) : null
 
-
-    const classes = []
-    if (this.state.persons.length <= 2) {
-      classes.push('red');
-    }
-
-    if (this.state.persons.length <= 1) {
-      classes.push('bold');
-    }
-
-    let chars = (<div>{
-      [...this.state.chars].map((char, index) => {
-        return <CharComponent
-          click={() => this.deleteCharHandler(index)}
-          char={char} />
-      })}</div>
-    );
 
     return (
 
       <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
-        <h2>Validation task:</h2>
-        <input type="text" onChange={this.validatedTextChangedHandler} />
-        <ValidationComponent
-          validationMessage={this.state.validationMessage}
-          key={this.state.validationMessage} />
-        <p value={this.state.validationMessage} />
-        <h2>Char task:</h2>
-        <input
-          type="text"
-          onChange={this.charsChangedHandler}
-          value={this.state.chars} />
-        {chars}
-        <br />
-        <StyledButton alt={this.state.showPersons}
-          onClick={this.togglePersonHandler}>
-          Toggle People
-        </StyledButton>
+        <Cockpit 
+        showPersons={this.state.showPersons}
+        persons={this.state.persons}
+        chars = {this.state.chars}
+        charsChanged = {this.charsChangedHandler}
+        charDeleted = {this.deleteCharHandler}
+        textChagned={this.validatedTextChangedHandler}
+        validationMessage ={this.state.validationMessage}
+        clicked = {this.togglePersonHandler}/>
         {persons}
       </div>
 
