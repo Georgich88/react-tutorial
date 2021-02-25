@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person'
+import Person from './Persons/Person/Person'
 import ValidationComponent from './Validation/ValidationComponent'
 import CharComponent from './Char/CharComponent';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import styled from 'styled-components'
 
 
@@ -42,13 +43,13 @@ class App extends Component {
   nameChangedHandler = (event, id) => {
 
     const personIndex = this.state.persons.findIndex(p => {
-      return p.id === id;
+      return p.id === id; // error testing
     });
 
     const person = { ...this.state.persons[personIndex] };
-    // const person = Object.assign({}, this.state.persons[personIndex]);
 
     person.name = event.target.value;
+
     const persons = [...this.state.persons];
     persons[personIndex] = person
 
@@ -80,12 +81,13 @@ class App extends Component {
     let persons = this.state.showPersons === true ?
       (<div>
         {this.state.persons.map((person, index) => {
-          return <Person
-            click={() => this.deletePersonHandler(index)}
-            changed={(event) => this.nameChangedHandler(event, person.id)}
-            name={person.name}
-            age={person.age}
-            key={person.id} />
+          return <ErrorBoundary key={person.id}>
+            <Person
+              click={() => this.deletePersonHandler(index)}
+              changed={(event) => this.nameChangedHandler(event, person.id)}
+              name={person.name}
+              age={person.age} />
+          </ErrorBoundary>
         })}
       </div>) : null
 
@@ -125,7 +127,7 @@ class App extends Component {
           value={this.state.chars} />
         {chars}
         <br />
-        <StyledButton alt={this.state.showPersons} 
+        <StyledButton alt={this.state.showPersons}
           onClick={this.togglePersonHandler}>
           Toggle People
         </StyledButton>
