@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Persons/Person/Person'
-import ValidationComponent from './Validation/ValidationComponent'
-import CharComponent from './Char/CharComponent';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Person from './components/Persons/Person/Person'
+import ValidationComponent from './components/Validation/ValidationComponent'
+import CharComponent from './components/Char/CharComponent';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import styled from 'styled-components'
 
 
