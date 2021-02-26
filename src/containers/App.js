@@ -6,17 +6,35 @@ import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
 
-  state = {
-    persons: [
-      { id: '0000001', name: 'Max', age: Math.floor(Math.random() * 30) },
-      { id: '0000002', name: 'Manu', age: Math.floor(Math.random() * 30) },
-      { id: '0000003', name: 'Stepahnie', age: Math.floor(Math.random() * 30) }
-    ],
-    otherState: 'some other value',
-    showPersons: false,
-    validationMessage: '',
-    chars: ''
-  };
+  constructor(props){
+    super(props);
+    console.log('[App.js] constructor');
+    this.state = {
+      persons: [
+        { id: '0000001', name: 'Max', age: Math.floor(Math.random() * 30) },
+        { id: '0000002', name: 'Manu', age: Math.floor(Math.random() * 30) },
+        { id: '0000003', name: 'Stepahnie', age: Math.floor(Math.random() * 30) }
+      ],
+      otherState: 'some other value',
+      showPersons: false,
+      validationMessage: '',
+      chars: ''
+    };
+  
+  }
+
+  static getDerivedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
 
   deletePersonHandler = (index) => {
     const persons = [...this.state.persons];
@@ -61,13 +79,13 @@ class App extends Component {
   }
 
   render() {
-
+    console.log('[App.js] rendering ...');
     let persons = this.state.showPersons === true ?
       (<div>
         <Persons
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
-          changed={this.state.nameChangedHandler} />
+          changed={this.nameChangedHandler} />
       </div>) : null
 
 
