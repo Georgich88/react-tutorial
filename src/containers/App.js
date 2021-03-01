@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
-import withClass from "../hoc/withClass";
-import Aux from "../hoc/Aux";
+import AuthContext from "../context/auth-context";
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +15,7 @@ class App extends Component {
         {
           id: "0000003",
           name: "Stepahnie",
-          age: "Math.floor(Math.random() * 30)",
+          age: Math.floor(Math.random() * 30),
         },
       ],
       otherState: "some other value",
@@ -25,6 +24,7 @@ class App extends Component {
       validationMessage: "",
       chars: "",
       changeCounter: 0,
+      authenticated: false,
     };
   }
 
@@ -89,6 +89,10 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   };
 
+  loginHandler = () => {
+    this.setState({ authenticated: true });
+  };
+
   render() {
     console.log("[App.js] rendering ...");
     let persons =
@@ -111,20 +115,27 @@ class App extends Component {
         >
           Remove Cockpit
         </button>
-        {this.state.showCockpit ? (
-          <Cockpit
-            title={this.props.appTitle}
-            showPersons={this.state.showPersons}
-            personsLength={this.state.persons.length}
-            chars={this.state.chars}
-            charsChanged={this.charsChangedHandler}
-            charDeleted={this.deleteCharHandler}
-            textChagned={this.validatedTextChangedHandler}
-            validationMessage={this.state.validationMessage}
-            clicked={this.togglePersonHandler}
-          />
-        ) : null}
-        {persons}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler,
+          }}
+        >
+          {this.state.showCockpit ? (
+            <Cockpit
+              title={this.props.appTitle}
+              showPersons={this.state.showPersons}
+              personsLength={this.state.persons.length}
+              chars={this.state.chars}
+              charsChanged={this.charsChangedHandler}
+              charDeleted={this.deleteCharHandler}
+              textChagned={this.validatedTextChangedHandler}
+              validationMessage={this.state.validationMessage}
+              clicked={this.togglePersonHandler}
+            />
+          ) : null}
+          {persons}
+        </AuthContext.Provider>
       </div>
     );
   }

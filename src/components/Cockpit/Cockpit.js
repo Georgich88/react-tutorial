@@ -1,21 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import CharComponent from "../Char/CharComponent";
+import AuthContext from "../../context/auth-context";
 
 const StyledButton = styled.button`
-  background-color: ${(props) => (props.alt.toString() ? "red" : "green")};
+  background-color: ${(props) => (props.active ? "red" : "green")};
   color: white;
   font: inherit;
   border: 1x solid blue;
   padding: 8px;
   cursor: pointer;
   &:hover: {
-    background-color: ${(props) => (props.alt.toString() ? "salmon" : "lightgreen")};
+    background-color: ${(props) =>
+      props.active ? "salmon" : "lightgreen"};
     color: black;
   }
 `;
 
 const Cockpit = (props) => {
+  const toggleBtnRef = useRef(null);
+
   // useEffect(() => {
   //   console.log("[Cockpit.js] useEffect");
   //   // fake Http request...
@@ -27,11 +31,12 @@ const Cockpit = (props) => {
   useEffect(() => {
     console.log("[Cockpit.js] useEffect only once");
     // fake Http request...
-    const timer = setTimeout(() => {
-      alert("[Cockpit.js] useEffect only once");
-    }, 1000);
+    // const timer = setTimeout(() => {
+    //   alert("[Cockpit.js] useEffect only once");
+    // }, 1000);
+    toggleBtnRef.current.click();
     return () => {
-      clearTimeout(timer);
+      // clearTimeout(timer);
       console.log("[Cockpit.js] cleanup work in useEffect");
     };
   }, []);
@@ -70,9 +75,22 @@ const Cockpit = (props) => {
       <input type="text" onChange={props.charsChanged} value={props.chars} />
       {chars}
       <br />
-      <StyledButton alt={props.showPersons} onClick={props.clicked}>
-        Toggle People
-      </StyledButton>
+      <div>
+        <StyledButton
+          ref={toggleBtnRef}
+          active={props.showPersons}
+          onClick={props.clicked}
+        >
+          Toggle People
+        </StyledButton>
+        <AuthContext.Consumer>
+          {(context) => (
+            <StyledButton active={context.authenticated} onClick={context.login}>
+              Log in
+            </StyledButton>
+          )}
+        </AuthContext.Consumer>
+      </div>
     </div>
   );
 };

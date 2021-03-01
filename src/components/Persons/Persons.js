@@ -3,10 +3,6 @@ import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 import Person from "./Person/Person";
 
 class Persons extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
   static getDerivedStateFromProps(props, state) {
     console.log("[Persons.js] getDerivedStateFromProps");
     return state;
