@@ -1,14 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './containers/App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./containers/App";
+import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App appTitle="Person Manager"/>
-  </React.StrictMode>,
-  document.getElementById('root')
+  <App appTitle="Person Manager" />,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
