@@ -11,14 +11,14 @@ const StyledButton = styled.button`
   padding: 8px;
   cursor: pointer;
   &:hover: {
-    background-color: ${(props) =>
-      props.active ? "salmon" : "lightgreen"};
+    background-color: ${(props) => (props.active ? "salmon" : "lightgreen")};
     color: black;
   }
 `;
 
 const Cockpit = (props) => {
   const toggleBtnRef = useRef(null);
+  const authContext = useContext(AuthContext);
 
   // useEffect(() => {
   //   console.log("[Cockpit.js] useEffect");
@@ -83,13 +83,9 @@ const Cockpit = (props) => {
         >
           Toggle People
         </StyledButton>
-        <AuthContext.Consumer>
-          {(context) => (
-            <StyledButton active={context.authenticated} onClick={context.login}>
-              Log in
-            </StyledButton>
-          )}
-        </AuthContext.Consumer>
+        <StyledButton active={context.authenticated} onClick={context.login}>
+          Log in
+        </StyledButton>
       </div>
     </div>
   );
